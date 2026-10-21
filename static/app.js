@@ -7,8 +7,8 @@
  */
 "use strict";
 
-// ── Constanten (gelijk aan prflcheck/checks.py) ──────────────────────────────
-const TANAMIN = 0.01, TANAMAX = 1.0, TANAFLW = 1 / 15, TANASTL = 0.125;
+// ── Constanten (gelijk aan prflcheck/checks.py; bewaakt door tests/test_constanten.py) ──
+const TANAMIN = 0.01, TANAMAX = 1.0, TANAFLW = 1 / 15, TANASTL = 0.125, TANABERM = 1 / 15;
 const TANAMINVOORLAND = 0.1, DELTAXMINVOORLAND = 10, DELTAXMINDIJK = 0.1;
 const RAAKAFSTAND = 12;      // pixels waarbinnen een punt geraakt wordt
 const MARGE = { l: 64, r: 18, t: 18, b: 44 };
@@ -89,7 +89,7 @@ function profieldelen(p = staat.profiel) {
       else if (tan > TANAMAX) reden = "steiler dan 1:1";
       else if (tan < TANAMIN) reden = "flauwer dan 1:100";
       else if (tan > TANAFLW && tan < TANASTL) reden = "tussen berm en talud";
-      soort = tan <= TANAFLW ? "berm" : "talud";
+      soort = tan <= TANABERM ? "berm" : "talud";
     }
     const helling = Math.abs(dz) < 1e-9 ? null : Math.abs(dx / dz);
     delen.push({ i, soort: reden ? "fout" : soort, reden, helling, dx, dz });

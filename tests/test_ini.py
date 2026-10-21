@@ -1,6 +1,14 @@
 from pathlib import Path
 
-from app import INI_SLEUTELS, STANDAARD_INI, bewaar_gewijzigde_instellingen, lees_ini, schrijf_ini
+from app import (
+    INI_PADEN,
+    INI_SLEUTELS,
+    VOORBEELD_INI,
+    bewaar_gewijzigde_instellingen,
+    lees_ini,
+    schrijf_ini,
+    standaard_ini,
+)
 
 VOORBEELD = """; commentaar bovenaan
 [paden]
@@ -59,6 +67,18 @@ def test_alleen_gewijzigde_waarden_en_regeleinden_behouden(tmp_path):
     assert b"\n" not in data.replace(b"\r\n", b"")
 
 
-def test_meegeleverd_ini_bevat_alle_sleutels():
-    tekst = Path(STANDAARD_INI).read_text(encoding="utf-8")
+def test_voorbeeld_ini_bevat_alle_sleutels_en_wijst_naar_testdata():
+    tekst = VOORBEELD_INI.read_text(encoding="utf-8")
     assert all(f"{sleutel} =" in tekst for sleutel in INI_SLEUTELS)
+    # relatieve paden, zodat het voorbeeld in elke checkout werkt
+    waarden = lees_ini(VOORBEELD_INI)
+    assert all(Path(waarden[sleutel]).exists() for sleutel in INI_PADEN)
+
+
+def test_standaard_ini_wordt_uit_voorbeeld_gemaakt(tmp_path):
+    pad, voorbeeld = tmp_path / "profieleditor.ini", tmp_path / "profieleditor.voorbeeld.ini"
+    assert standaard_ini(pad, voorbeeld) is None
+    voorbeeld.write_text(VOORBEELD, encoding="utf-8")
+    assert standaard_ini(pad, voorbeeld) == pad and pad.read_text(encoding="utf-8") == VOORBEELD
+    pad.write_text("[paden]\n", encoding="utf-8")
+    assert standaard_ini(pad, voorbeeld) == pad and pad.read_text(encoding="utf-8") == "[paden]\n"  # niet overschreven
