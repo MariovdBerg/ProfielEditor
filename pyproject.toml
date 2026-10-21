@@ -1,9 +1,22 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "profieleditor"
 version = "0.1.0"
 description = "Interactieve HTML-editor voor Hydra-NL/HydraRing-profielen (.prfl)"
 requires-python = ">=3.9"
-dependencies = ["prflcheck"]
+# prflcheck staat niet op PyPI: rechtstreeks van GitHub, vastgezet op een release
+dependencies = ["prflcheck @ git+https://github.com/MariovdBerg/ProfielCheckPython.git@v2.0.0"]
+
+[project.optional-dependencies]
+dev = ["pytest", "ruff"]
+
+# De editor draait vanuit de checkout (start_profieleditor.bat, static/ naast app.py); installeer
+# daarom alleen 'editable': pip install -e ".[dev]"
+[tool.setuptools]
+py-modules = ["app", "ahn", "identificatie", "koppeling"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

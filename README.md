@@ -10,7 +10,9 @@ en een HTML/JavaScript-pagina (`static/`). Er zijn geen andere afhankelijkheden 
 
 ## Starten
 
-1. Vul de paden in [`profieleditor.ini`](profieleditor.ini) in:
+1. De instellingen staan in `profieleditor.ini` naast `app.py`. Dat bestand staat niet in git: bij de eerste
+   start wordt het gemaakt als kopie van [`profieleditor.voorbeeld.ini`](profieleditor.voorbeeld.ini), dat naar
+   de testdata in `tests\` wijst (je kunt het ook zelf kopiëren). Vul daarin je eigen paden in:
 
    ```ini
    [paden]
@@ -32,9 +34,22 @@ en een HTML/JavaScript-pagina (`static/`). Er zijn geen andere afhankelijkheden 
      `start_profieleditor.bat P:\project\profieleditor.ini`. Een snelkoppeling naar de `.bat` met het
      `.ini`-bestand als argument werkt ook.
 
-Is prflcheck niet geïnstalleerd, dan wordt de broncode gezocht in `../ProfielCheckPython/src` of in de map
-uit de omgevingsvariabele `PRFLCHECK_PATH`. Installeren kan met
-`pip install git+https://github.com/MariovdBerg/ProfielCheckPython.git`.
+**prflcheck** staat niet op PyPI en wordt van GitHub geïnstalleerd, vastgezet op release `v2.0.0`
+(zie `pyproject.toml`). Vanuit de checkout van de editor:
+
+```bash
+pip install -e ".[dev]"
+```
+
+Of alleen prflcheck:
+
+```bash
+pip install "prflcheck @ git+https://github.com/MariovdBerg/ProfielCheckPython.git@v2.0.0"
+```
+
+Is prflcheck niet geïnstalleerd, dan wordt de broncode gezocht in `../ProfielCheckPython/src` (een clone van
+[ProfielCheckPython](https://github.com/MariovdBerg/ProfielCheckPython) naast deze map) of in de map uit de
+omgevingsvariabele `PRFLCHECK_PATH`.
 
 De instellingen zijn ook in de editor aan te passen via **⚙ Instellingen** (met *Bladeren…*).
 Wat daar verandert, wordt in het `.ini`-bestand bewaard; alleen de gewijzigde regels worden aangepast,
@@ -47,7 +62,8 @@ waarschuwing en opent de instellingen.
 python app.py [--ini profieleditor.ini] [opties]
 ```
 
-Zonder `--ini` wordt `profieleditor.ini` naast `app.py` gebruikt (als dat bestaat).
+Zonder `--ini` wordt `profieleditor.ini` naast `app.py` gebruikt; bestaat dat nog niet, dan wordt het eerst
+gemaakt uit `profieleditor.voorbeeld.ini`.
 Opties op de opdrachtregel gaan voor het `.ini`-bestand:
 
 | Optie | Betekenis |
@@ -164,6 +180,10 @@ de AHN-lijnen.
 ## Tests
 
 ```bash
-pip install pytest
+pip install -e ".[dev]"
 python -m pytest
+ruff check .
 ```
+
+`tests/test_constanten.py` controleert dat de grenswaarden waarmee de editor profieldelen kleurt
+(`static/app.js`) gelijk zijn aan die in `prflcheck.checks`.
