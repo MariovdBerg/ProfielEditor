@@ -1,0 +1,14 @@
+[project]
+name = "profieleditor"
+version = "0.1.0"
+description = "Interactieve HTML-editor voor Hydra-NL/HydraRing-profielen (.prfl)"
+requires-python = ">=3.9"
+dependencies = ["prflcheck"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 120
+target-version = "py39"
