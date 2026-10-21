@@ -9,8 +9,9 @@ Kolommen worden herkend op naam (hoofdletterongevoelig):
     dijkvak: 'dijkvak', 'dijkvak_id', 'vak_id', 'vak', of een kolom met 'vak' in de naam
     profiel: 'profiel', 'prfl', 'bestand', 'bestandsnaam', of een kolom met 'prfl'/'profiel' in de naam
 Wordt de dijkvak-kolom niet herkend, dan is dat de eerste kolom; de profielkolom is dan de eerste
-overige kolom. Zonder profielkolom (of met een lege cel) wordt het profiel gezocht op de
-bestandsnaamconventie {traject}_{dijkvak}.prfl (zie Koppeling.vak_id).
+overige kolom. Zonder profielkolom of met een lege profielcel wordt niet naar een bestand gezocht:
+het dijkvak staat dan in het overzicht als 'profiel ontbreekt'. Lege traject- en dijkvakcellen
+worden later uit de bestandsnaam gehaald (zie identificatie.py).
 Overige kolommen worden als extra informatie per dijkvak bewaard.
 """
 

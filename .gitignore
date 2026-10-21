@@ -1,18 +1,16 @@
+# Eigen instellingen (wordt bij de eerste start gemaakt uit profieleditor.voorbeeld.ini)
+/profieleditor.ini
+
+# Python
 __pycache__/
+*.pyc
 .pytest_cache/
 .ruff_cache/
-*.pyc
+.venv/
+*.egg-info/
+build/
 
-# IDEs
+# IDE's
 .vscode/
 .idea/
 .claude/
-
-# Python runtime
-*.pyc
-.pytest_cache
-.ruff_cache/
-
-# Virtual environments
-.venv/
-**__pycache__/
