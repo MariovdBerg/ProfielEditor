@@ -4,6 +4,7 @@ Interactieve editor in de browser voor Hydra-NL/HydraRing-profielen (`.prfl`).
 Profielen worden gelezen, gecontroleerd en weggeschreven met [prflcheck](https://github.com/MariovdBerg/ProfielCheckPython); 
 een koppeltabel (`.csv` of `.xlsx`) koppelt de profielen aan dijkvakken.
 
+**Auteurs:** Dion Rovers, Ilian de Snoo, Mario van den Berg, Claude  
 **Copyright:** © 2026 HKV lijn in water B.V.  
 **Licentie:** [EUPL-1.2](https://github.com/MariovdBerg/ProfielEditor/blob/main/LICENSE)
 
