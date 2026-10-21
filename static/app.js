@@ -1,4 +1,7 @@
 /* Profieleditor – interactieve bewerking van .prfl-profielen.
+ * Copyright © 2026 HKV lijn in water B.V.
+ * Licensed under the EUPL
+ * SPDX-License-Identifier: EUPL-1.2
  *
  * Het profiel wordt in de editor bewaard als één lijst punten [x, z, r] van voorland tot kruin,
  * met `voorland` = aantal voorlandpunten inclusief de teen (0 = geen voorland).

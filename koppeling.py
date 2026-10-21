@@ -1,5 +1,8 @@
 """
 Koppeltabel dijkvak <-> profiel
+Copyright © 2026 HKV lijn in water B.V.
+Licensed under the EUPL
+SPDX-License-Identifier: EUPL-1.2
 
 Leest een .csv- of .xlsx-bestand waarin per regel een dijkvak aan een .prfl-bestand
 gekoppeld is. Alleen de standaardbibliotheek wordt gebruikt (ook voor .xlsx).

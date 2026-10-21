@@ -1,5 +1,8 @@
 """
 AHN-dwarsprofielen uit een shapefile
+Copyright © 2026 HKV lijn in water B.V.
+Licensed under the EUPL
+SPDX-License-Identifier: EUPL-1.2
 
 Leest een PolylineZ-shapefile (bijvoorbeeld cross_lines_ahn.shp) met de .dbf ernaast, en koppelt
 de lijnen aan profielen. Alleen de standaardbibliotheek wordt gebruikt.

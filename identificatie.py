@@ -1,5 +1,8 @@
 """
 Identificatie van profielen en hun aangepaste versies
+Copyright © 2026 HKV lijn in water B.V.
+Licensed under the EUPL
+SPDX-License-Identifier: EUPL-1.2
 
 - Traject en dijkvak: eerst uit de koppeltabel; wat daar leeg is, uit de bestandsnaam
   ({traject}_{dijkvak}[_tekst].prfl, alleen als het eerste deel op een traject lijkt, bijvoorbeeld

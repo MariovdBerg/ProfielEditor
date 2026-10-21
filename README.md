@@ -4,6 +4,9 @@ Interactieve editor in de browser voor Hydra-NL/HydraRing-profielen (`.prfl`).
 Profielen worden gelezen, gecontroleerd en weggeschreven met [prflcheck](https://github.com/MariovdBerg/ProfielCheckPython); 
 een koppeltabel (`.csv` of `.xlsx`) koppelt de profielen aan dijkvakken.
 
+**Copyright:** © 2026 HKV lijn in water B.V.  
+**Licentie:** [EUPL-1.2](https://github.com/MariovdBerg/ProfielEditor/blob/main/LICENSE)
+
 De editor bestaat uit een kleine lokale Python-webserver (`app.py`, alleen standaardbibliotheek)
 en een HTML/JavaScript-pagina (`static/`). Er zijn geen andere afhankelijkheden dan prflcheck.
 
@@ -200,3 +203,17 @@ ruff check .
 
 `tests/test_constanten.py` controleert dat de grenswaarden waarmee de editor profieldelen kleurt
 (`static/app.js`) gelijk zijn aan die in `prflcheck.checks`.
+
+## Licentie
+
+Copyright © 2026 HKV lijn in water B.V.
+
+Licensed under the EUPL
+
+Dit werk valt onder de [European Union Public Licence v1.2](https://github.com/MariovdBerg/ProfielEditor/blob/main/LICENSE)
+(EUPL-1.2), een opensourcelicentie met copyleft: je mag de code gebruiken, aanpassen en verspreiden, ook
+commercieel, als je de copyrightvermeldingen laat staan, de licentie meelevert, je wijzigingen aangeeft en
+gewijzigde versies onder de EUPL verspreidt (of onder een verenigbare licentie uit de bijlage ervan). De officiële
+tekst in alle EU-talen staat op <https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12>.
+
+prflcheck ([ProfielCheckPython](https://github.com/MariovdBerg/ProfielCheckPython)) valt ook onder de EUPL-1.2.

@@ -1,5 +1,8 @@
 """
 Profieleditor (HTML) voor Hydra-NL/HydraRing-profielen (.prfl)
+Copyright © 2026 HKV lijn in water B.V.
+Licensed under the EUPL
+SPDX-License-Identifier: EUPL-1.2
 
 Start een lokale webserver met een interactieve profieleditor in de browser.
 Profielen worden gelezen, gecontroleerd en weggeschreven met de module prflcheck.

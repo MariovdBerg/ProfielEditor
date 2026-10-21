@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=64"]
+requires = ["setuptools>=77"]  # 77+: license als SPDX-tekst (PEP 639)
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -7,6 +7,11 @@ name = "profieleditor"
 version = "0.1.0"
 description = "Interactieve HTML-editor voor Hydra-NL/HydraRing-profielen (.prfl)"
 requires-python = ">=3.9"
+license = "EUPL-1.2"
+license-files = ["LICENSE"]
+authors = [
+    { name = "Mario van den Berg", email = "M.vandenBerg@hkv.nl" },
+]
 # prflcheck staat niet op PyPI: rechtstreeks van GitHub, vastgezet op een release
 dependencies = ["prflcheck @ git+https://github.com/MariovdBerg/ProfielCheckPython.git@v2.0.0"]
 
