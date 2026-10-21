@@ -1,9 +1,8 @@
 # Profieleditor
 
-Interactieve editor in de browser voor Hydra-NL/HydraRing-profielen (`.prfl`), gebaseerd op de
-notebook `prfl_editor_v28.ipynb`. Profielen worden gelezen, gecontroleerd en weggeschreven met
-[prflcheck](https://github.com/MariovdBerg/ProfielCheckPython); een koppeltabel (`.csv` of `.xlsx`)
-koppelt de profielen aan dijkvakken.
+Interactieve editor in de browser voor Hydra-NL/HydraRing-profielen (`.prfl`).
+Profielen worden gelezen, gecontroleerd en weggeschreven met [prflcheck](https://github.com/MariovdBerg/ProfielCheckPython); 
+een koppeltabel (`.csv` of `.xlsx`) koppelt de profielen aan dijkvakken.
 
 De editor bestaat uit een kleine lokale Python-webserver (`app.py`, alleen standaardbibliotheek)
 en een HTML/JavaScript-pagina (`static/`). Er zijn geen andere afhankelijkheden dan prflcheck.
@@ -16,10 +15,10 @@ en een HTML/JavaScript-pagina (`static/`). Er zijn geen andere afhankelijkheden 
 
    ```ini
    [paden]
-   prfl_map = P:\pad\naar\profielen
-   koppeltabel = P:\pad\naar\koppeling.xlsx
-   uitvoer_map = P:\pad\naar\profielen_aangepast
-   ahn_shapefile = P:\pad\naar\cross_lines_ahn.shp
+   prfl_map = C:\pad\naar\profielen
+   koppeltabel = C:\pad\naar\koppeling.xlsx
+   uitvoer_map = C:\pad\naar\profielen_aangepast
+   ahn_shapefile = C:\pad\naar\cross_lines_ahn.shp
    ```
 
    Aanhalingstekens zijn niet nodig. Relatieve paden gelden ten opzichte van de map van het `.ini`-bestand.
@@ -31,7 +30,7 @@ en een HTML/JavaScript-pagina (`static/`). Er zijn geen andere afhankelijkheden 
 
    - Een vaste Python opgeven: zet bovenaan in de `.bat` `set "PYTHON=C:\...\python.exe"`.
    - Een ander `.ini`-bestand (bijvoorbeeld per project): sleep het `.ini`-bestand op de `.bat`, of
-     `start_profieleditor.bat P:\project\profieleditor.ini`. Een snelkoppeling naar de `.bat` met het
+     `start_profieleditor.bat C:\project\profieleditor.ini`. Een snelkoppeling naar de `.bat` met het
      `.ini`-bestand als argument werkt ook.
 
 **prflcheck** staat niet op PyPI en wordt van GitHub geïnstalleerd, vastgezet op release `v2.0.0`
