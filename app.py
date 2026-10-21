@@ -6,7 +6,7 @@ Profielen worden gelezen, gecontroleerd en weggeschreven met de module prflcheck
 Een koppeltabel (.csv of .xlsx) koppelt de profielen aan dijkvakken.
 
 Gebruik:
-    start_profieleditor.bat                  (leest profieleditor.ini naast app.py)
+    start_profieleditor.bat                  (leest profieleditor.ini naast app.py, zie profieleditor.voorbeeld.ini)
     python app.py [--ini instellingen.ini] [--prfl-map <map>] [--koppeltabel <bestand>] [--uitvoer-map <map>]
 
 Opties op de opdrachtregel gaan voor het .ini-bestand. Instellingen die in de editor worden
@@ -21,6 +21,7 @@ import json
 import logging
 import math
 import os
+import shutil
 import subprocess
 import sys
 import threading
@@ -36,7 +37,12 @@ try:
 except ImportError:  # prflcheck niet geïnstalleerd: zoek de broncode naast deze repository
     _bron = os.environ.get("PRFLCHECK_PATH") or str(Path(__file__).resolve().parent.parent / "ProfielCheckPython" / "src")
     sys.path.insert(0, _bron)
-    import prflcheck
+    try:
+        import prflcheck
+    except ImportError:
+        sys.exit("prflcheck is niet gevonden. Installeer het van GitHub:\n"
+                 '    pip install "prflcheck @ git+https://github.com/MariovdBerg/ProfielCheckPython.git@v2.0.0"\n'
+                 f"of zet de broncode in {_bron} (of in de map uit PRFLCHECK_PATH).")
 
 from prflcheck import DamType, Damwandmodule, Profiel, ProfielError, ProfielPunt, ProfielVersion
 
@@ -585,6 +591,18 @@ def maak_server(werkruimte: Werkruimte, host="127.0.0.1", poort=8765) -> Threadi
 
 # ── Instellingenbestand (.ini) ─────────────────────────────────────────────────
 STANDAARD_INI = Path(__file__).resolve().parent / "profieleditor.ini"
+VOORBEELD_INI = Path(__file__).resolve().parent / "profieleditor.voorbeeld.ini"
+
+
+def standaard_ini(pad: Path = STANDAARD_INI, voorbeeld: Path = VOORBEELD_INI) -> Path | None:
+    """
+    Het standaard .ini-bestand. Bestaat het nog niet, dan wordt het gemaakt als kopie van het voorbeeld
+    (dat in git staat); het eigen .ini-bestand staat niet in git. None als ook het voorbeeld ontbreekt.
+    """
+    if not pad.exists() and voorbeeld.exists():
+        shutil.copyfile(voorbeeld, pad)
+        logger.info("%s aangemaakt uit %s; pas daarin de paden aan, of via Instellingen", pad.name, voorbeeld.name)
+    return pad if pad.exists() else None
 
 # sleutel -> (sectie, standaardwaarde)
 INI_SLEUTELS = {
@@ -685,7 +703,8 @@ def main(argv=None):
         description="Interactieve profieleditor voor .prfl-bestanden. "
                     "Instellingen komen uit het .ini-bestand; opties op de opdrachtregel gaan daarvoor.")
     parser.add_argument("--ini", default=None,
-                        help=f"Instellingenbestand (standaard: {STANDAARD_INI.name} naast app.py, als dat bestaat)")
+                        help=f"Instellingenbestand (standaard: {STANDAARD_INI.name} naast app.py; "
+                             f"bij de eerste start gemaakt uit {VOORBEELD_INI.name})")
     parser.add_argument("--prfl-map", help="Map met de .prfl-bestanden")
     parser.add_argument("--koppeltabel", help="Koppeltabel dijkvak-profiel (.csv of .xlsx)")
     parser.add_argument("--uitvoer-map", help="Map voor aangepaste profielen (standaard: de prfl-map)")
@@ -704,7 +723,7 @@ def main(argv=None):
 
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
 
-    ini_pad = Path(args.ini) if args.ini else (STANDAARD_INI if STANDAARD_INI.exists() else None)
+    ini_pad = Path(args.ini) if args.ini else standaard_ini()
     instellingen = {k: standaard for k, (_, standaard) in INI_SLEUTELS.items()}
     if ini_pad:
         if not ini_pad.exists():
