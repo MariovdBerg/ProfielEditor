@@ -13,6 +13,13 @@ rem Optioneel: vast pad naar python.exe, bijvoorbeeld
 rem set "PYTHON=C:\ProgramData\miniforge3\python.exe"
 set "PYTHON="
 
+rem Optioneel: map met de broncode van prflcheck (de map src van een clone van ProfielCheckPython,
+rem met daarin de map prflcheck), bijvoorbeeld
+rem set "PRFLCHECK_PATH=D:\GitHub\ProfielCheckPython\src"
+rem Alleen nodig als prflcheck niet in Python is geinstalleerd (pip install, zie README) en de clone
+rem niet als ..\ProfielCheckPython naast deze map staat; die wordt vanzelf gevonden. Leeg = niet gebruiken.
+set "PRFLCHECK_PATH="
+
 rem Een ander .ini-bestand kan als eerste argument worden meegegeven. Zonder argument kiest
 rem app.py zelf profieleditor.ini (en maakt die bij de eerste start uit het voorbeeld).
 set "INI=%~1"
@@ -44,6 +51,8 @@ goto :fout
 
 :start
 echo Python: %PYTHON%
+if defined PRFLCHECK_PATH echo PRFLCHECK_PATH: %PRFLCHECK_PATH%
+if defined PRFLCHECK_PATH if not exist "%PRFLCHECK_PATH%\prflcheck\__init__.py" echo Let op: geen map prflcheck in PRFLCHECK_PATH; verwijst het naar de map src van de clone?
 if "%INI%"=="" echo Instellingen: profieleditor.ini naast app.py
 if not "%INI%"=="" echo Instellingen: %INI%
 echo.

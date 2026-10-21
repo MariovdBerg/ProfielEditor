@@ -46,9 +46,23 @@ Of alleen prflcheck:
 pip install "prflcheck @ git+https://github.com/MariovdBerg/ProfielCheckPython.git@v2.0.0"
 ```
 
-Is prflcheck niet geïnstalleerd, dan wordt de broncode gezocht in `../ProfielCheckPython/src` (een clone van
-[ProfielCheckPython](https://github.com/MariovdBerg/ProfielCheckPython) naast deze map) of in de map uit de
-omgevingsvariabele `PRFLCHECK_PATH`.
+Is prflcheck niet in Python geïnstalleerd, dan gebruikt de editor de broncode uit een clone van
+[ProfielCheckPython](https://github.com/MariovdBerg/ProfielCheckPython):
+
+1. de map uit `PRFLCHECK_PATH`, als die is ingevuld;
+2. anders `..\ProfielCheckPython\src`, een clone naast deze map. Die wordt vanzelf gevonden.
+
+`PRFLCHECK_PATH` staat bovenaan in `start_profieleditor.bat` en is leeg na een checkout. Vul het alleen in als de
+clone ergens anders staat, bijvoorbeeld op een netwerkschijf, en laat het verwijzen naar de map `src` (waarin de
+map `prflcheck` staat), niet naar de map van de repository zelf:
+
+```bat
+set "PRFLCHECK_PATH=D:\GitHub\ProfielCheckPython\src"
+```
+
+Een geïnstalleerde prflcheck gaat altijd voor; `PRFLCHECK_PATH` wordt dan niet gebruikt. Bij het starten staat in het
+venster welke prflcheck (versie en map) de editor gebruikt. Wie `app.py` zonder de `.bat` start, kan
+`PRFLCHECK_PATH` als omgevingsvariabele zetten.
 
 De instellingen zijn ook in de editor aan te passen via **⚙ Instellingen** (met *Bladeren…*).
 Wat daar verandert, wordt in het `.ini`-bestand bewaard; alleen de gewijzigde regels worden aangepast,

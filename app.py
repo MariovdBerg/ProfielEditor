@@ -40,9 +40,15 @@ except ImportError:  # prflcheck niet geïnstalleerd: zoek de broncode naast dez
     try:
         import prflcheck
     except ImportError:
+        if os.environ.get("PRFLCHECK_PATH"):
+            _clone = (f"of laat PRFLCHECK_PATH ({_bron}) verwijzen naar de map src van de clone van "
+                      "ProfielCheckPython (met daarin de map prflcheck).")
+        else:
+            _clone = (f"of zet een clone van ProfielCheckPython zó neer dat de broncode in {_bron} staat, "
+                      "of vul PRFLCHECK_PATH in bovenaan start_profieleditor.bat.")
         sys.exit("prflcheck is niet gevonden. Installeer het van GitHub:\n"
                  '    pip install "prflcheck @ git+https://github.com/MariovdBerg/ProfielCheckPython.git@v2.0.0"\n'
-                 f"of zet de broncode in {_bron} (of in de map uit PRFLCHECK_PATH).")
+                 + _clone)
 
 from prflcheck import DamType, Damwandmodule, Profiel, ProfielError, ProfielPunt, ProfielVersion
 
@@ -748,7 +754,8 @@ def main(argv=None):
         parser.error(str(e))
     server = maak_server(werkruimte, poort=int(instellingen["poort"]))
     url = f"http://127.0.0.1:{server.server_address[1]}/"
-    logger.info("Profieleditor (prflcheck %s) draait op %s  (Ctrl+C om te stoppen)", prflcheck.__version__, url)
+    logger.info("prflcheck %s uit %s", prflcheck.__version__, Path(prflcheck.__file__).parent)
+    logger.info("Profieleditor draait op %s  (Ctrl+C om te stoppen)", url)
     if not args.geen_browser:
         threading.Timer(0.5, webbrowser.open, (url,)).start()
     try:
