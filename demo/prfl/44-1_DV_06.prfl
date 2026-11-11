@@ -1,0 +1,25 @@
+VERSIE 4.0
+ID 44-1_DV_06
+
+RICHTING 200.4
+
+DAM 0
+DAMHOOGTE 0.0
+
+VOORLAND 4
+-99.500 2.801 1.000
+-80.500 2.850 1.000
+-36.000 2.801 1.000
+-19.000 3.027 1.000
+
+DAMWAND 0
+KRUINHOOGTE 8.88
+DIJK 2
+-19.000 3.027 1.000
+-2.000 8.875 1.000
+
+MEMO
+Geschematiseerd uit 50 AHN-profielen van vak DV_06 (AHNProfielCreator).
+x = afstand tot de dijklijn [m]. Kwantiel 0.2; kruin binnen 10 m van de dijklijn (x = 0 m).
+0 berm(en), RMSE 0.12 m (0 berm(en): 0.12 m, 1 berm(en): 0.11 m, 2 berm(en): 0.18 m).
+Voorland: 4 punten; eerste punt 0.22 m verlaagd (geen voorlandpunt lager dan het eerste).

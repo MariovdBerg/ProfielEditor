@@ -21,6 +21,7 @@ HTML/JavaScript-pagina (`src\static\`). De enige afhankelijkheid is prflcheck.
 ## Inhoud
 
 - [Snel starten (testdata)](#snel-starten-testdata)
+- [Demo: uitvoer van AHNProfielCreator](#demo-uitvoer-van-ahnprofielcreator)
 - [Installatie](#installatie)
 - [Instellingen](#instellingen): [ini-bestand](#het-ini-bestand), [opdrachtregel](#opdrachtregel)
 - [Invoer](#invoer): [profielen](#profielen), [koppeltabel](#koppeltabel), [aangepaste versies](#aangepaste-versies), [AHN-shapefile](#ahn-shapefile)
@@ -60,6 +61,47 @@ Klik op een dijkvak, sleep een punt in de grafiek en kijk rechtsboven hoe prflch
 
 Voor een eigen traject: vul in `profieleditor.ini` (of via **⚙ Instellingen** in de editor) je eigen
 profielmap, koppeltabel en uitvoermap in; zie [Instellingen](#instellingen) en [Invoer](#invoer).
+
+## Demo: uitvoer van AHNProfielCreator
+
+In `demo\` staat de uitvoer van de demo van [AHNProfielCreator](https://github.com/MariovdBerg/AHNProfielCreator):
+het traject 44-1 (Lekdijk bij Schalkwijk) met zes dijkvakken, per vak een geschematiseerd profiel en 50
+AHN-dwarsprofielen. Zo zie je hoe de twee programma's op elkaar aansluiten.
+
+```text
+demo\
+├─ profieleditor.ini         instellingen van de demo
+├─ cross_lines_ahn.shp       AHN-dwarsprofielen (300 lijnen, met .dbf, .shx, .prj en .cpg)
+├─ prfl\                     geschematiseerde profielen
+│  ├─ 44-1_DV_01.prfl … 44-1_DV_06.prfl
+│  ├─ schematisatie.csv      overzicht per vak; dient als koppeltabel
+│  └─ schematisatie.json
+└─ prfl_aangepast\           aangepaste profielen (wordt bij het eerste opslaan gemaakt)
+```
+
+Start de demo door `demo\profieleditor.ini` op `start_profieleditor.bat` te slepen, of:
+
+```bat
+start_profieleditor.bat demo\profieleditor.ini
+```
+
+De lijst toont zes dijkvakken (`44-1_DV_01` t/m `44-1_DV_06`), alle zes goedgekeurd door prflcheck, met
+achter elk profiel 50 AHN-lijnen. De overige kolommen van `schematisatie.csv`, zoals kruinhoogte, bermen en RMSE,
+staan in de tab *Profiel*.
+
+**Zo is de demo opgezet** – en zo gebruik je de uitvoer van AHNProfielCreator voor een eigen traject:
+
+| Instelling | Waarde | Waarom |
+|---|---|---|
+| `prfl_map` | `uitvoer\prfl` van het project | de geschematiseerde profielen |
+| `koppeltabel` | `uitvoer\prfl\schematisatie.csv` | de kolommen `vak`, `traject` en `bestand` worden vanzelf herkend |
+| `uitvoer_map` | een aparte map, bijv. `prfl_aangepast` | opnieuw schematiseren overschrijft de profielen in `prfl` |
+| `ahn_shapefile` | `uitvoer\cross_lines_ahn.shp` | de kolommen `traject` en `vak_id` worden vanzelf herkend |
+
+Gebruik `schematisatie.csv` als koppeltabel. Zonder koppeltabel haalt de editor traject en dijkvak uit de
+bestandsnaam, en dat lukt niet bij vaknamen met een `_` (zoals `DV_01`): dan worden de AHN-lijnen niet gekoppeld.
+De x-coördinaten passen zonder spiegelen: in beide programma's is x = 0 op de dijklijn (het midden van de
+dwarslijn) en is negatieve x buiten.
 
 ## Installatie
 
@@ -251,7 +293,8 @@ versie van zichzelf.
 Met `ahn_shapefile` worden AHN-dwarsprofielen achter het profiel getekend. Gebruik een **PolylineZ**-shapefile met
 de `.dbf` ernaast, zoals `cross_lines_ahn.shp` uit [AHNProfielCreator](https://github.com/MariovdBerg/AHNProfielCreator).
 Een shapefile zonder hoogtes (zoals `cross_lines.shp`) geeft een melding. De shapefile wordt één keer ingelezen
-(ca. 1,5 s voor 6624 lijnen) en opnieuw als het bestand verandert.
+(ca. 1,5 s voor 6624 lijnen) en opnieuw als het bestand verandert. Gebruik bij de uitvoer van AHNProfielCreator
+`schematisatie.csv` als koppeltabel; zie [Demo](#demo-uitvoer-van-ahnprofielcreator).
 
 **Koppelen** – kolommen `ahn_kolom_traject`, `ahn_kolom_dijkvak` en `ahn_kolom_profiel` (leeg = automatisch
 herkennen met dezelfde namen als de koppeltabel, bijvoorbeeld `TRAJECT_ID` en `vak_id`; `-` = niet gebruiken).
@@ -366,6 +409,7 @@ ruff check .
 | `src\ahn.py` | inlezen en koppelen van de AHN-shapefile (alleen standaardbibliotheek) |
 | `src\static\` | de pagina: `index.html`, `app.js`, `style.css` |
 | `tests\` | tests en testdata |
+| `demo\` | uitvoer van AHNProfielCreator met eigen `.ini`; zie [Demo](#demo-uitvoer-van-ahnprofielcreator) |
 | `start_profieleditor.bat`, `profieleditor.voorbeeld.ini` | starten en standaardinstellingen, in de hoofdmap |
 
 De modules in `src\` worden als losse modules geïmporteerd (`import app`); pytest zet `src` daarvoor op het pad
