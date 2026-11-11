@@ -2,7 +2,8 @@
 
 Interactieve editor in de browser voor Hydra-NL/HydraRing-profielen (`.prfl`). Je bladert door de dijkvakken van
 een traject, past per vak het profiel aan in een grafiek en slaat het aangepaste profiel op. Elke wijziging wordt
-direct gecontroleerd met [prflcheck](https://github.com/MariovdBerg/ProfielCheckPython).
+direct gecontroleerd met [prflcheck](https://github.com/MariovdBerg/ProfielCheckPython). De editor bestaat uit een kleine lokale Python-webserver (`src\app.py`, 
+alleen de standaardbibliotheek) en een HTML/JavaScript-pagina (`src\static\`). De enige afhankelijkheid is prflcheck.
 
 ```
 prfl-map (.prfl) ───┬─> 1. inlezen en koppelen     dijkvakken per traject, met prflcheck-status
@@ -11,8 +12,7 @@ AHN-shapefile ──────┘   3. bewerken in de grafiek  punten, voorlan
                         4. opslaan                 uitvoer_map/<naam>_aangepast.prfl (versie 3 of 4)
 ```
 
-De editor bestaat uit een kleine lokale Python-webserver (`src\app.py`, alleen de standaardbibliotheek) en een
-HTML/JavaScript-pagina (`src\static\`). De enige afhankelijkheid is prflcheck.
+![](https://github.com/MariovdBerg/ProfielEditor/blob/main/docs/example.png)
 
 **Auteurs:** Dion Rovers, Ilian de Snoo, Mario van den Berg, Claude  
 **Copyright:** © 2026 HKV lijn in water B.V.  
@@ -20,8 +20,8 @@ HTML/JavaScript-pagina (`src\static\`). De enige afhankelijkheid is prflcheck.
 
 ## Inhoud
 
-- [Snel starten (testdata)](#snel-starten-testdata)
-- [Demo: uitvoer van AHNProfielCreator](#demo-uitvoer-van-ahnprofielcreator)
+- [Snel starten (demo)](#snel-starten-demo)
+- [Uitvoer van AHNProfielCreator gebruiken](#uitvoer-van-ahnprofielcreator-gebruiken)
 - [Installatie](#installatie)
 - [Instellingen](#instellingen): [ini-bestand](#het-ini-bestand), [opdrachtregel](#opdrachtregel)
 - [Invoer](#invoer): [profielen](#profielen), [koppeltabel](#koppeltabel), [aangepaste versies](#aangepaste-versies), [AHN-shapefile](#ahn-shapefile)
@@ -29,9 +29,9 @@ HTML/JavaScript-pagina (`src\static\`). De enige afhankelijkheid is prflcheck.
 - [Uitvoer](#uitvoer)
 - Verder: [ontwikkelen en testen](#ontwikkelen-en-testen), [licentie](#licentie)
 
-## Snel starten (testdata)
+## Snel starten (demo)
 
-Er komt testdata mee in `tests\`: elf profielen uit de trajecten 34-1, 34a-1 en 35-2 plus één zonder traject in
+Er komt demodata mee in `demo\`: elf profielen uit de trajecten 34-1, 34a-1 en 35-2 plus één zonder traject in
 de naam, een koppeltabel, een aantal aangepaste versies en een AHN-shapefile met dwarsprofielen. Het meegeleverde voorbeeld-ini-bestand wijst
 daarnaar, zodat de editor zonder eigen data werkt. Nodig: Python 3.9 of hoger.
 
@@ -53,43 +53,19 @@ daarnaar, zodat de editor zonder eigen data werkt. Nodig: Python 3.9 of hoger.
 
 3. Dubbelklik op **`start_profieleditor.bat`**. Bij deze eerste start wordt `profieleditor.ini` gemaakt als kopie
    van [`profieleditor.voorbeeld.ini`](profieleditor.voorbeeld.ini). De browser opent op
-   <http://127.0.0.1:8765/> met de testprofielen in de lijst. Sluit het zwarte venster om de editor te stoppen.
+   <http://127.0.0.1:8765/> met de demoprofielen in de lijst. Sluit het zwarte venster om de editor te stoppen.
 
 Klik op een dijkvak, sleep een punt in de grafiek en kijk rechtsboven hoe prflcheck reageert. *💾 Opslaan*
-(Ctrl+S) schrijft het profiel naar `tests\test_prfl_aangepast\`. Dat is testdata die in git staat: met
-`git checkout tests` zet je die terug.
+(Ctrl+S) schrijft het profiel naar `demo\prfl_aangepast\`. Die map staat in git: met `git checkout demo` zet je
+de demodata terug.
 
 Voor een eigen traject: vul in `profieleditor.ini` (of via **⚙ Instellingen** in de editor) je eigen
 profielmap, koppeltabel en uitvoermap in; zie [Instellingen](#instellingen) en [Invoer](#invoer).
 
-## Demo: uitvoer van AHNProfielCreator
+## Uitvoer van AHNProfielCreator gebruiken
 
-In `demo\` staat de uitvoer van de demo van [AHNProfielCreator](https://github.com/MariovdBerg/AHNProfielCreator):
-het traject 44-1 (Lekdijk bij Schalkwijk) met zes dijkvakken, per vak een geschematiseerd profiel en 50
-AHN-dwarsprofielen. Zo zie je hoe de twee programma's op elkaar aansluiten.
-
-```text
-demo\
-├─ profieleditor.ini         instellingen van de demo
-├─ cross_lines_ahn.shp       AHN-dwarsprofielen (300 lijnen, met .dbf, .shx, .prj en .cpg)
-├─ prfl\                     geschematiseerde profielen
-│  ├─ 44-1_DV_01.prfl … 44-1_DV_06.prfl
-│  ├─ schematisatie.csv      overzicht per vak; dient als koppeltabel
-│  └─ schematisatie.json
-└─ prfl_aangepast\           aangepaste profielen (wordt bij het eerste opslaan gemaakt)
-```
-
-Start de demo door `demo\profieleditor.ini` op `start_profieleditor.bat` te slepen, of:
-
-```bat
-start_profieleditor.bat demo\profieleditor.ini
-```
-
-De lijst toont zes dijkvakken (`44-1_DV_01` t/m `44-1_DV_06`), alle zes goedgekeurd door prflcheck, met
-achter elk profiel 50 AHN-lijnen. De overige kolommen van `schematisatie.csv`, zoals kruinhoogte, bermen en RMSE,
-staan in de tab *Profiel*.
-
-**Zo is de demo opgezet** – en zo gebruik je de uitvoer van AHNProfielCreator voor een eigen traject:
+Zo gebruik je de uitvoer van [AHNProfielCreator](https://github.com/MariovdBerg/AHNProfielCreator) voor een eigen
+traject:
 
 | Instelling | Waarde | Waarom |
 |---|---|---|
@@ -154,7 +130,7 @@ set "PYTHON=C:\ProgramData\miniforge3\python.exe"
 
 De instellingen staan in `profieleditor.ini` in de hoofdmap (naast `start_profieleditor.bat`). Dat bestand staat niet in git: bij de eerste start
 wordt het gemaakt als kopie van [`profieleditor.voorbeeld.ini`](profieleditor.voorbeeld.ini), dat naar de
-testdata in `tests\` wijst (je kunt het ook zelf kopiëren). Vul daarin je eigen paden in:
+demodata in `demo\` wijst (je kunt het ook zelf kopiëren). Vul daarin je eigen paden in:
 
 ```ini
 [paden]
@@ -294,7 +270,7 @@ Met `ahn_shapefile` worden AHN-dwarsprofielen achter het profiel getekend. Gebru
 de `.dbf` ernaast, zoals `cross_lines_ahn.shp` uit [AHNProfielCreator](https://github.com/MariovdBerg/AHNProfielCreator).
 Een shapefile zonder hoogtes (zoals `cross_lines.shp`) geeft een melding. De shapefile wordt één keer ingelezen
 (ca. 1,5 s voor 6624 lijnen) en opnieuw als het bestand verandert. Gebruik bij de uitvoer van AHNProfielCreator
-`schematisatie.csv` als koppeltabel; zie [Demo](#demo-uitvoer-van-ahnprofielcreator).
+`schematisatie.csv` als koppeltabel; zie [Uitvoer van AHNProfielCreator gebruiken](#uitvoer-van-ahnprofielcreator-gebruiken).
 
 **Koppelen** – kolommen `ahn_kolom_traject`, `ahn_kolom_dijkvak` en `ahn_kolom_profiel` (leeg = automatisch
 herkennen met dezelfde namen als de koppeltabel, bijvoorbeeld `TRAJECT_ID` en `vak_id`; `-` = niet gebruiken).
@@ -409,7 +385,7 @@ ruff check .
 | `src\ahn.py` | inlezen en koppelen van de AHN-shapefile (alleen standaardbibliotheek) |
 | `src\static\` | de pagina: `index.html`, `app.js`, `style.css` |
 | `tests\` | tests en testdata |
-| `demo\` | uitvoer van AHNProfielCreator met eigen `.ini`; zie [Demo](#demo-uitvoer-van-ahnprofielcreator) |
+| `demo\` | demodata waar `profieleditor.voorbeeld.ini` naar wijst; zie [Snel starten](#snel-starten-demo) |
 | `start_profieleditor.bat`, `profieleditor.voorbeeld.ini` | starten en standaardinstellingen, in de hoofdmap |
 
 De modules in `src\` worden als losse modules geïmporteerd (`import app`); pytest zet `src` daarvoor op het pad
