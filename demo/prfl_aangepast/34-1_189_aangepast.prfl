@@ -1,0 +1,30 @@
+VERSIE		4.0
+ID 		34-1_189
+
+RICHTING	173.05832063473937
+
+DAM		0
+DAMHOOGTE	0
+
+VOORLAND	2	
+-49.676	1.834	1.000
+-6.077	2.463	1.000
+
+DAMWAND		0
+KRUINHOOGTE	3.53
+DIJK		2
+-6.077	2.463	1.000
+-1.802	3.532	1.000
+
+MEMO
+Geschematiseerd profiel voor LBO2 (HKV (DR), 2025).
+
+
+Positie Dijkpaal: 
+117678.18266337048	409005.0422209163
+
+Positie HR locatie:
+034-01_0053_9_AM_km0252	117720.0	408942.0
+ 
+Afstand tot dijkpaal o.b.v projectie dijknormaal:
+-67.634 m
