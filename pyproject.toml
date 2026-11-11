@@ -21,14 +21,15 @@ dependencies = ["prflcheck @ git+https://github.com/MariovdBerg/ProfielCheckPyth
 [project.optional-dependencies]
 dev = ["pytest", "ruff"]
 
-# De editor draait vanuit de checkout (start_profieleditor.bat, static/ naast app.py); installeer
-# daarom alleen 'editable': pip install -e ".[dev]"
+# De editor draait vanuit de checkout (start_profieleditor.bat start src/app.py, met src/static/ ernaast en
+# de .ini-bestanden in de hoofdmap); installeer daarom alleen 'editable': pip install -e ".[dev]"
 [tool.setuptools]
+package-dir = { "" = "src" }
 py-modules = ["app", "ahn", "identificatie", "koppeling"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = ["."]
+pythonpath = ["src"]
 
 [tool.ruff]
 line-length = 120

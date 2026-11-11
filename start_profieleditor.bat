@@ -21,7 +21,7 @@ rem niet als ..\ProfielCheckPython naast deze map staat; die wordt vanzelf gevon
 set "PRFLCHECK_PATH="
 
 rem Een ander .ini-bestand kan als eerste argument worden meegegeven. Zonder argument kiest
-rem app.py zelf profieleditor.ini (en maakt die bij de eerste start uit het voorbeeld).
+rem src\app.py zelf profieleditor.ini in deze map (en maakt die bij de eerste start uit het voorbeeld).
 set "INI=%~1"
 set "INI_ARG="
 if not "%INI%"=="" set INI_ARG=--ini "%INI%"
@@ -53,13 +53,13 @@ goto :fout
 echo Python: %PYTHON%
 if defined PRFLCHECK_PATH echo PRFLCHECK_PATH: %PRFLCHECK_PATH%
 if defined PRFLCHECK_PATH if not exist "%PRFLCHECK_PATH%\prflcheck\__init__.py" echo Let op: geen map prflcheck in PRFLCHECK_PATH; verwijst het naar de map src van de clone?
-if "%INI%"=="" echo Instellingen: profieleditor.ini naast app.py
+if "%INI%"=="" echo Instellingen: profieleditor.ini in %~dp0
 if not "%INI%"=="" echo Instellingen: %INI%
 echo.
 if "%PYTHON:~0,3%"=="py " (
-    %PYTHON% "%~dp0app.py" %INI_ARG%
+    %PYTHON% "%~dp0src\app.py" %INI_ARG%
 ) else (
-    "%PYTHON%" "%~dp0app.py" %INI_ARG%
+    "%PYTHON%" "%~dp0src\app.py" %INI_ARG%
 )
 if errorlevel 1 goto :fout
 exit /b 0

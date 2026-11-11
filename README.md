@@ -11,8 +11,8 @@ AHN-shapefile ──────┘   3. bewerken in de grafiek  punten, voorlan
                         4. opslaan                 uitvoer_map/<naam>_aangepast.prfl (versie 3 of 4)
 ```
 
-De editor bestaat uit een kleine lokale Python-webserver (`app.py`, alleen de standaardbibliotheek) en een
-HTML/JavaScript-pagina (`static/`). De enige afhankelijkheid is prflcheck.
+De editor bestaat uit een kleine lokale Python-webserver (`src\app.py`, alleen de standaardbibliotheek) en een
+HTML/JavaScript-pagina (`src\static\`). De enige afhankelijkheid is prflcheck.
 
 **Auteurs:** Dion Rovers, Ilian de Snoo, Mario van den Berg, Claude  
 **Copyright:** © 2026 HKV lijn in water B.V.  
@@ -96,7 +96,7 @@ set "PRFLCHECK_PATH=D:\GitHub\ProfielCheckPython\src"
 ```
 
 Een geïnstalleerde prflcheck gaat altijd voor; `PRFLCHECK_PATH` wordt dan niet gebruikt. Bij het starten staat in
-het venster welke prflcheck (versie en map) de editor gebruikt. Wie `app.py` zonder de `.bat` start, kan
+het venster welke prflcheck (versie en map) de editor gebruikt. Wie `src\app.py` zonder de `.bat` start, kan
 `PRFLCHECK_PATH` als omgevingsvariabele zetten.
 
 **Welke Python?** `start_profieleditor.bat` zoekt zelf een Python 3: de `py`-launcher, `python` op het PATH, of
@@ -110,7 +110,7 @@ set "PYTHON=C:\ProgramData\miniforge3\python.exe"
 
 ### Het ini-bestand
 
-De instellingen staan in `profieleditor.ini` naast `app.py`. Dat bestand staat niet in git: bij de eerste start
+De instellingen staan in `profieleditor.ini` in de hoofdmap (naast `start_profieleditor.bat`). Dat bestand staat niet in git: bij de eerste start
 wordt het gemaakt als kopie van [`profieleditor.voorbeeld.ini`](profieleditor.voorbeeld.ini), dat naar de
 testdata in `tests\` wijst (je kunt het ook zelf kopiëren). Vul daarin je eigen paden in:
 
@@ -154,10 +154,11 @@ Een snelkoppeling naar de `.bat` met het `.ini`-bestand als argument werkt ook.
 Zonder het `.bat`-bestand:
 
 ```bash
-python app.py [--ini profieleditor.ini] [opties]
+python src\app.py [--ini profieleditor.ini] [opties]
 ```
 
-Zonder `--ini` wordt `profieleditor.ini` naast `app.py` gebruikt; bestaat dat nog niet, dan wordt het eerst
+Zonder `--ini` wordt `profieleditor.ini` in de hoofdmap gebruikt (de map boven `src`, ook als je `app.py` vanuit
+een andere map start); bestaat dat nog niet, dan wordt het eerst
 gemaakt uit `profieleditor.voorbeeld.ini`. Opties op de opdrachtregel gaan voor het `.ini`-bestand:
 
 | Optie | Betekenis |
@@ -274,7 +275,7 @@ achter het profiel. Zie [Grafiek](#grafiek) voor aan/uit en spiegelen.
 
 ## Gebruik
 
-Start de editor met `start_profieleditor.bat` (of `python app.py`, zie [Opdrachtregel](#opdrachtregel)). De
+Start de editor met `start_profieleditor.bat` (of `python src\app.py`, zie [Opdrachtregel](#opdrachtregel)). De
 editor opent in de browser op <http://127.0.0.1:8765/> en is alleen bereikbaar vanaf de eigen computer. Stoppen:
 sluit het zwarte venster of druk Ctrl+C. Sluit je de browser met niet-opgeslagen wijzigingen, dan vraagt de
 browser eerst om bevestiging.
@@ -359,15 +360,20 @@ ruff check .
 
 | Bestand | Inhoud |
 |---|---|
-| `app.py` | webserver, instellingen en de API voor de pagina |
-| `koppeling.py` | inlezen van de koppeltabel (`.csv` en `.xlsx`, alleen standaardbibliotheek) |
-| `identificatie.py` | traject en dijkvak uit de bestandsnaam, zoeken van aangepaste versies |
-| `ahn.py` | inlezen en koppelen van de AHN-shapefile (alleen standaardbibliotheek) |
-| `static\` | de pagina: `index.html`, `app.js`, `style.css` |
+| `src\app.py` | webserver, instellingen en de API voor de pagina |
+| `src\koppeling.py` | inlezen van de koppeltabel (`.csv` en `.xlsx`, alleen standaardbibliotheek) |
+| `src\identificatie.py` | traject en dijkvak uit de bestandsnaam, zoeken van aangepaste versies |
+| `src\ahn.py` | inlezen en koppelen van de AHN-shapefile (alleen standaardbibliotheek) |
+| `src\static\` | de pagina: `index.html`, `app.js`, `style.css` |
 | `tests\` | tests en testdata |
+| `start_profieleditor.bat`, `profieleditor.voorbeeld.ini` | starten en standaardinstellingen, in de hoofdmap |
+
+De modules in `src\` worden als losse modules geïmporteerd (`import app`); pytest zet `src` daarvoor op het pad
+(`pythonpath` in `pyproject.toml`). Na het verplaatsen naar `src\` moet een bestaande editable installatie opnieuw:
+`python -m pip install -e ".[dev]"`.
 
 `tests\test_constanten.py` controleert dat de grenswaarden waarmee de editor profieldelen kleurt
-(`static\app.js`) gelijk zijn aan die in `prflcheck.checks`.
+(`src\static\app.js`) gelijk zijn aan die in `prflcheck.checks`.
 
 ## Licentie
 

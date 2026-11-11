@@ -9,8 +9,10 @@ Profielen worden gelezen, gecontroleerd en weggeschreven met de module prflcheck
 Een koppeltabel (.csv of .xlsx) koppelt de profielen aan dijkvakken.
 
 Gebruik:
-    start_profieleditor.bat                  (leest profieleditor.ini naast app.py, zie profieleditor.voorbeeld.ini)
-    python app.py [--ini instellingen.ini] [--prfl-map <map>] [--koppeltabel <bestand>] [--uitvoer-map <map>]
+    start_profieleditor.bat                  (leest profieleditor.ini in de hoofdmap, zie profieleditor.voorbeeld.ini)
+    python src/app.py [--ini instellingen.ini] [--prfl-map <map>] [--koppeltabel <bestand>] [--uitvoer-map <map>]
+
+De broncode staat in src/; de hoofdmap (de map boven src/) bevat de .ini-bestanden en start_profieleditor.bat.
 
 Opties op de opdrachtregel gaan voor het .ini-bestand. Instellingen die in de editor worden
 aangepast, worden in het .ini-bestand bewaard.
@@ -35,10 +37,12 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
+HOOFDMAP = Path(__file__).resolve().parent.parent  # map van de checkout, met src/, de .ini-bestanden en de .bat
+
 try:
     import prflcheck
 except ImportError:  # prflcheck niet geïnstalleerd: zoek de broncode naast deze repository
-    _bron = os.environ.get("PRFLCHECK_PATH") or str(Path(__file__).resolve().parent.parent / "ProfielCheckPython" / "src")
+    _bron = os.environ.get("PRFLCHECK_PATH") or str(HOOFDMAP.parent / "ProfielCheckPython" / "src")
     sys.path.insert(0, _bron)
     try:
         import prflcheck
@@ -599,8 +603,8 @@ def maak_server(werkruimte: Werkruimte, host="127.0.0.1", poort=8765) -> Threadi
 
 
 # ── Instellingenbestand (.ini) ─────────────────────────────────────────────────
-STANDAARD_INI = Path(__file__).resolve().parent / "profieleditor.ini"
-VOORBEELD_INI = Path(__file__).resolve().parent / "profieleditor.voorbeeld.ini"
+STANDAARD_INI = HOOFDMAP / "profieleditor.ini"
+VOORBEELD_INI = HOOFDMAP / "profieleditor.voorbeeld.ini"
 
 
 def standaard_ini(pad: Path = STANDAARD_INI, voorbeeld: Path = VOORBEELD_INI) -> Path | None:
@@ -712,7 +716,7 @@ def main(argv=None):
         description="Interactieve profieleditor voor .prfl-bestanden. "
                     "Instellingen komen uit het .ini-bestand; opties op de opdrachtregel gaan daarvoor.")
     parser.add_argument("--ini", default=None,
-                        help=f"Instellingenbestand (standaard: {STANDAARD_INI.name} naast app.py; "
+                        help=f"Instellingenbestand (standaard: {STANDAARD_INI.name} in {HOOFDMAP}; "
                              f"bij de eerste start gemaakt uit {VOORBEELD_INI.name})")
     parser.add_argument("--prfl-map", help="Map met de .prfl-bestanden")
     parser.add_argument("--koppeltabel", help="Koppeltabel dijkvak-profiel (.csv of .xlsx)")

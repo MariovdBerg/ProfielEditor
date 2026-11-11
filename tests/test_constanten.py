@@ -6,7 +6,7 @@ from pathlib import Path
 
 from prflcheck import checks
 
-APP_JS = Path(__file__).resolve().parent.parent / "static" / "app.js"
+APP_JS = Path(__file__).resolve().parent.parent / "src" / "static" / "app.js"
 VERWACHT = {"TANAMIN", "TANAMAX", "TANAFLW", "TANASTL", "TANABERM", "TANAMINVOORLAND", "DELTAXMINVOORLAND",
             "DELTAXMINDIJK"}
 
